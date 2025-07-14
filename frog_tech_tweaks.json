@@ -1,0 +1,29 @@
+{
+  "applied_tweaks": [
+    "profile_super_computer",
+    "profile_ultra_low_latency"
+  ],
+  "tweak_history": [
+    {
+      "tweak": "profile_super_computer",
+      "timestamp": "2025-07-13 23:58:50",
+      "success": true
+    },
+    {
+      "tweak": "profile_ultra_low_latency",
+      "timestamp": "2025-07-14 15:19:52",
+      "success": true
+    },
+    {
+      "tweak": "profile_super_computer",
+      "timestamp": "2025-07-14 15:25:38",
+      "success": true
+    }
+  ],
+  "current_profile": "super_computer",
+  "timestamp": "2025-07-14 15:25:38",
+  "system_info": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]"
+  }
+}

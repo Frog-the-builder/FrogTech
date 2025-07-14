@@ -1,0 +1,3 @@
+io install wmi, go to command prompt and type "pip install wmi"
+===============================================================
+without wmi, some features mat be limited
