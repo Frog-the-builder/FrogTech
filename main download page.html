@@ -84,6 +84,34 @@
             background: linear-gradient(45deg, #357abd, #4a90e2);
         }
 
+        .github-download-button {
+            margin-top: 10px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .github-download-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+            background: linear-gradient(45deg, #20c997, #28a745);
+            text-decoration: none;
+            color: white;
+        }
+
         .download-button:active {
             transform: translateY(-1px);
         }
@@ -1564,6 +1592,12 @@
                 Download Frog-tech Folder
             </button>
         </div>
+        <div style="display: flex; justify-content: center; margin-top: 16px; width: 100%;">
+            <a href="#" onclick="downloadFromGitHub()" class="github-download-button">
+                <span class="download-icon">📦</span>
+                Download from GitHub
+            </a>
+        </div>
         <div class="description-text">
             <span>Experience the power of advanced system optimization with our comprehensive, subscription-free performance enhancement tool.</span> 
             <span>Our cutting-edge optimizer intelligently analyzes your system resources, identifies performance bottlenecks, and implements targeted improvements to maximize your PC's efficiency.</span> 
@@ -1573,36 +1607,168 @@
 
     <script>
         function downloadFrogTech() {
-            try {
-                // Method 1: Try direct download
-                const link = document.createElement('a');
-                link.href = 'Frog-tech.zip';
-                link.download = 'Frog-tech.zip';
-                link.style.display = 'none';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+            // Check if we're on GitHub Pages
+            const isGitHubPages = window.location.hostname.includes('github.io') || 
+                                 window.location.hostname.includes('github.com');
+            
+            if (isGitHubPages) {
+                // GitHub Pages solution
+                const githubMessage = `🌐 GitHub Pages Detected!\n\n` +
+                    `Since you're viewing this on GitHub Pages, direct file downloads are not allowed.\n\n` +
+                    `📥 Please use one of these methods:\n\n` +
+                    `1️⃣ **GitHub Download Button** (Recommended):\n` +
+                    `   • Click the "Download from GitHub" button below\n` +
+                    `   • This will download the entire repository as a ZIP file\n` +
+                    `   • Extract and find the "Frog-tech" folder\n\n` +
+                    `2️⃣ **Manual Download**:\n` +
+                    `   • Go to the GitHub repository page\n` +
+                    `   • Click the green "Code" button\n` +
+                    `   • Select "Download ZIP"\n\n` +
+                    `3️⃣ **Clone Repository**:\n` +
+                    `   • Use Git to clone the repository\n` +
+                    `   • Run: git clone [repository-url]\n\n` +
+                    `🚀 After downloading, extract the ZIP and run optimizer.py!`;
                 
-                // Method 2: Fallback with instructions
+                alert(githubMessage);
+                return;
+            }
+            
+            // Local file system download (for testing)
+            try {
+                const downloadFile = (filename) => {
+                    const link = document.createElement('a');
+                    link.href = filename;
+                    link.download = filename;
+                    link.style.display = 'none';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                };
+
+                downloadFile('Frog-Tech Download.zip');
+                
                 setTimeout(() => {
-                    const message = `Download initiated!\n\n` +
-                        `If the download didn't start automatically:\n\n` +
-                        `1. Right-click on this page\n` +
-                        `2. Select "Save As" or "Save Page As"\n` +
-                        `3. Navigate to the same folder as this HTML file\n` +
-                        `4. Find "Frog-tech.zip" and download it manually\n\n` +
-                        `Or simply copy "Frog-tech.zip" from the same folder as this HTML file.`;
+                    const successMessage = `🎉 Download initiated!\n\n` +
+                        `The Frog-Tech Optimizer is now downloading to your computer.\n\n` +
+                        `📁 What's included:\n` +
+                        `• optimizer.py - Main optimization engine\n` +
+                        `• test_optimizations.py - Testing utilities\n` +
+                        `• install wmi.txt - Installation guide\n` +
+                        `• Documentation files\n\n` +
+                        `💡 If the download didn't start:\n` +
+                        `1. Check your browser's download folder\n` +
+                        `2. Look for "Frog-Tech Download.zip"\n` +
+                        `3. Extract the zip file to use the optimizer\n\n` +
+                        `🚀 Ready to optimize your system!`;
                     
-                    if (confirm('Download initiated! If the file didn\'t download, click OK for manual instructions.')) {
-                        alert(message);
+                    if (confirm('Download started! Click OK for detailed instructions.')) {
+                        alert(successMessage);
+                    }
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Download failed:', error);
+                
+                const fallbackMessage = `📥 Manual Download Instructions:\n\n` +
+                    `1. Look for "Frog-Tech Download.zip" in the same folder as this webpage\n` +
+                    `2. Right-click the zip file and select "Save As"\n` +
+                    `3. Choose your preferred download location\n` +
+                    `4. Extract the zip file to access the optimizer\n\n` +
+                    `🔧 Alternative: Copy the entire "Frog-tech" folder directly\n\n` +
+                    `Need help? Check the documentation files included in the download.`;
+                
+                alert(fallbackMessage);
+            }
+        }
+
+        function downloadFromGitHub() {
+            // Get the current repository URL
+            const currentUrl = window.location.href;
+            let repoUrl = '';
+            
+            // Try to extract repository info from GitHub Pages URL
+            if (currentUrl.includes('github.io')) {
+                // Extract username and repo name from GitHub Pages URL
+                const urlParts = currentUrl.split('/');
+                const username = urlParts[3]; // username.github.io
+                const repoName = urlParts[4]; // repository name
+                
+                if (username && repoName) {
+                    repoUrl = `https://github.com/${username}/${repoName}/archive/refs/heads/main.zip`;
+                }
+            }
+            
+            // For the specific FrogTech repository
+            if (currentUrl.includes('frog-the-builder.github.io/FrogTech')) {
+                repoUrl = 'https://github.com/frog-the-builder/FrogTech/archive/refs/heads/main.zip';
+            }
+            
+            // If we couldn't extract the URL, provide instructions
+            if (!repoUrl) {
+                const instructions = `📥 GitHub Download Instructions:\n\n` +
+                    `1️⃣ **Direct Download**:\n` +
+                    `   • Go to: https://github.com/frog-the-builder/FrogTech\n` +
+                    `   • Click the green "Code" button\n` +
+                    `   • Select "Download ZIP"\n\n` +
+                    `2️⃣ **Direct Link**:\n` +
+                    `   • Click this link: https://github.com/frog-the-builder/FrogTech/archive/refs/heads/main.zip\n\n` +
+                    `3️⃣ **After Download**:\n` +
+                    `   • Extract the ZIP file\n` +
+                    `   • Find the "Frog-tech" folder\n` +
+                    `   • Run optimizer.py to start optimizing!\n\n` +
+                    `🚀 Need help? Check the documentation in the downloaded files.`;
+                
+                alert(instructions);
+                return;
+            }
+            
+            // Try to download from the extracted URL
+            try {
+                window.open(repoUrl, '_blank');
+                
+                setTimeout(() => {
+                    const successMessage = `🎉 GitHub Download Started!\n\n` +
+                        `The FrogTech repository ZIP file is now downloading.\n\n` +
+                        `📁 After download completes:\n` +
+                        `1. Extract the ZIP file\n` +
+                        `2. Find the "Frog-tech" folder\n` +
+                        `3. Open optimizer.py to start optimizing\n\n` +
+                        `💡 What's included:\n` +
+                        `• Complete FrogTech repository with all files\n` +
+                        `• optimizer.py - Main optimization engine\n` +
+                        `• Documentation and guides\n` +
+                        `• Test files and installation guides\n\n` +
+                        `🚀 Ready to optimize your system!`;
+                    
+                    if (confirm('Download started! Click OK for detailed instructions.')) {
+                        alert(successMessage);
                     }
                 }, 1000);
                 
             } catch (error) {
-                console.error('Download failed:', error);
-                alert('Download failed. Please manually copy "Frog-tech.zip" from the same folder as this HTML file.');
+                console.error('GitHub download failed:', error);
+                alert('Download failed. Please manually download from your GitHub repository page.');
             }
         }
+
+        // Add visual feedback for the download button
+        document.addEventListener('DOMContentLoaded', function() {
+            const downloadBtn = document.querySelector('.download-button');
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', function(e) {
+                    // Add loading state
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<span class="download-icon">⏳</span>Downloading...';
+                    this.style.background = 'linear-gradient(45deg, #2E7D32, #388E3C)';
+                    
+                    // Reset after download attempt
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.style.background = 'linear-gradient(45deg, #4a90e2, #357abd)';
+                    }, 3000);
+                });
+            }
+        });
     </script>
 
 </body>
